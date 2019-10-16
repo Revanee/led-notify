@@ -14,7 +14,7 @@ const (
 
 // SystemLed is a Led which can be controlled via /sys/class/leds
 type SystemLed struct {
-	GenericLed
+	Led
 	// FilePath is the path of the brightness file of the LED
 	FilePath string
 }

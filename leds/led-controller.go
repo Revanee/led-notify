@@ -6,14 +6,21 @@ import (
 	"github.com/pkg/errors"
 )
 
-// GenericLed implements the shared methods of all Leds
-type GenericLed struct {
-	Led
+// LedController add useful controls to a Led
+type LedController struct {
+	led Led
+}
+
+// NewLedController returns an instance of LedController
+func NewLedController(led Led) LedController {
+	return LedController{
+		led: led,
+	}
 }
 
 // ToggleLedState sets the LED to the opposite of its current state
-func (l GenericLed) ToggleLedState() error {
-	ledIsOn, err := l.LedIsOn()
+func (l LedController) ToggleLedState() error {
+	ledIsOn, err := l.led.LedIsOn()
 	if err != nil {
 		return errors.Wrap(err, "Could not get LED state")
 	}
@@ -25,7 +32,7 @@ func (l GenericLed) ToggleLedState() error {
 		newState = true
 	}
 
-	err = l.SetLedState(newState)
+	err = l.led.SetLedState(newState)
 	if err != nil {
 		return errors.Wrap(err, "Could not set LED state")
 	}
@@ -34,8 +41,8 @@ func (l GenericLed) ToggleLedState() error {
 }
 
 // Blink flashes the led nTimes number of times with rapidity determined by interval
-func (l GenericLed) Blink(nTimes int, interval time.Duration) error {
-	err := l.SetLedState(false)
+func (l LedController) Blink(nTimes int, interval time.Duration) error {
+	err := l.led.SetLedState(false)
 	if err != nil {
 		return errors.Wrap(err, "Could not set LED state")
 	}
