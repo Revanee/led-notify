@@ -19,8 +19,8 @@ type SystemLed struct {
 	FilePath string
 }
 
-// SetLedState sets the led to on if true and off if false
-func (l SystemLed) SetLedState(on bool) error {
+// SetState sets the led to on if true and off if false
+func (l SystemLed) SetState(on bool) error {
 	statusString := "0"
 	if on {
 		statusString = "1"
@@ -30,8 +30,8 @@ func (l SystemLed) SetLedState(on bool) error {
 		[]byte(statusString), os.FileMode(2))
 }
 
-// LedIsOn returns true if the LED is on and false if the LED is off
-func (l SystemLed) LedIsOn() (bool, error) {
+// IsOn returns true if the LED is on and false if the LED is off
+func (l SystemLed) IsOn() (bool, error) {
 	fileContents, err := ioutil.ReadFile(l.FilePath)
 	if err != nil {
 		return false, errors.Wrap(err, "Unable to read LED brightness file")
